@@ -30,3 +30,7 @@ dist/
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
+
+
+#Utils for mqtt
+backend/utils/config.go
