@@ -8,7 +8,7 @@ type Config struct {
 
 func LoadConfig() Config {
 	return Config{
-		MQTTBROKER:    "tcp://192.168.0.108:1883",
+		MQTTBROKER:    "tcp://192.168.1.24:1883",
 		MQTTTOPIC:     "polines/data/#",
 		WebSocketPort: 8080,
 	}
