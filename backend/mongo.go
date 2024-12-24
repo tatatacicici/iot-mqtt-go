@@ -40,6 +40,7 @@ func SaveSensorData(data SensorData) {
 		"turbidity":    data.Turbidity,
 		"ph":           data.PH,
 		"conductivity": data.Conductivity,
+		"temperature":  data.Temperature,
 		"timestamp":    time.Now(),
 	}
 

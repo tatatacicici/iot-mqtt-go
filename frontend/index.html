@@ -345,75 +345,91 @@
     </div>
 </main>
 
-    <script>
-        // WebSocket URL
-        const wsUrl = "ws://localhost:8080/ws"; // Ganti sesuai dengan URL backend Anda
+<script>
+    // WebSocket URL
+    const wsUrl = "ws://localhost:8080/ws"; // Ganti sesuai dengan URL backend Anda
 
-        // WebSocket initialization
-        const socket = new WebSocket(wsUrl);
+    // WebSocket initialization
+    const socket = new WebSocket(wsUrl);
 
-        // Status element
-        const statusElement = document.getElementById('status');
-        const dataItemsContainer = document.getElementById('data-items');
+    // Status element
+    const statusElement = document.getElementById('status');
+    const dataItemsContainer = document.getElementById('data-items');
 
-        // On WebSocket connection open
-        socket.onopen = () => {
-            statusElement.textContent = "Terhubung ke server";
-        };
+    // On WebSocket connection open
+    socket.onopen = () => {
+        statusElement.textContent = "Terhubung ke server";
+    };
 
-        // On receiving a message
-        socket.onmessage = (event) => {
-            try {
-                const data = JSON.parse(event.data);
+    // On receiving a message
+    socket.onmessage = (event) => {
+        try {
+            const data = JSON.parse(event.data);
 
-                // Clear previous data if any
-                dataItemsContainer.innerHTML = "";
+            // Clear previous data if any
+            dataItemsContainer.innerHTML = "";
 
-                // Render new data
-                const turbidityItem = document.createElement('div');
-                turbidityItem.className = "data-item";
-                turbidityItem.textContent = `Turbidity: ${data.turbidity}`;
+            // Render new data
+            const turbidityItem = document.createElement('div');
+            turbidityItem.className = "data-item";
+            turbidityItem.textContent = `Turbidity: ${data.turbidity}`;
 
-                const phItem = document.createElement('div');
-                phItem.className = "data-item";
-                phItem.textContent = `pH: ${data.ph}`;
+            const phItem = document.createElement('div');
+            phItem.className = "data-item";
+            phItem.textContent = `pH: ${data.ph}`;
 
-                const conductivityItem = document.createElement('div');
-                conductivityItem.className = "data-item";
-                conductivityItem.textContent = `Conductivity: ${data.conductivity}`;
+            const conductivityItem = document.createElement('div');
+            conductivityItem.className = "data-item";
+            conductivityItem.textContent = `Conductivity: ${data.conductivity}`;
 
-                const predictionItem = document.createElement('div');
-                predictionItem.className = "data-item prediction";
-                predictionItem.textContent = `Prediction: ${data.prediction}`;
-
-                const confidenceItem = document.createElement('div');
-                confidenceItem.className = "data-item confidence";
-                confidenceItem.textContent = `Confidence: ${(data.confidence * 100).toFixed(2)}%`;
-
-                dataItemsContainer.appendChild(turbidityItem);
-                dataItemsContainer.appendChild(phItem);
-                dataItemsContainer.appendChild(conductivityItem);
-                dataItemsContainer.appendChild(predictionItem);
-                dataItemsContainer.appendChild(confidenceItem);
-            } catch (error) {
-                console.error("Error parsing message:", error);
+            // Prediction logic
+            let predictionText = "";
+            switch (data.prediction) {
+                case 0:
+                    predictionText = "Layak Minum";
+                    break;
+                case 1:
+                    predictionText = "Agak Layak Minum";
+                    break;
+                case 2:
+                    predictionText = "Tidak Layak Minum";
+                    break;
+                default:
+                    predictionText = "Unknown";
             }
-        };
 
-        // On WebSocket error
-        socket.onerror = () => {
-            statusElement.textContent = "Terjadi kesalahan saat terhubung ke server";
-            statusElement.className = "error";
-        };
+            const predictionItem = document.createElement('div');
+            predictionItem.className = "data-item prediction";
+            predictionItem.textContent = `Prediction: ${predictionText}`;
 
-        // On WebSocket close
-        socket.onclose = () => {
-            statusElement.textContent = "Koneksi ke server terputus";
-            statusElement.className = "error";
-        };
-    </script>
+            const confidenceItem = document.createElement('div');
+            confidenceItem.className = "data-item confidence";
+            confidenceItem.textContent = `Confidence: ${(data.confidence * 100).toFixed(2)}%`;
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            dataItemsContainer.appendChild(turbidityItem);
+            dataItemsContainer.appendChild(phItem);
+            dataItemsContainer.appendChild(conductivityItem);
+            dataItemsContainer.appendChild(predictionItem);
+            dataItemsContainer.appendChild(confidenceItem);
+        } catch (error) {
+            console.error("Error parsing message:", error);
+        }
+    };
+
+    // On WebSocket error
+    socket.onerror = () => {
+        statusElement.textContent = "Terjadi kesalahan saat terhubung ke server";
+        statusElement.className = "error";
+    };
+
+    // On WebSocket close
+    socket.onclose = () => {
+        statusElement.textContent = "Koneksi ke server terputus";
+        statusElement.className = "error";
+    };
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
     <!--   Core JS Files   -->
