@@ -19,7 +19,7 @@ func StartWebSocketServer(port int) {
 	http.HandleFunc("/ws", handleConnections)
 
 	go handleMessages()
-
+	go StartPredictionLoop()
 	log.Printf("Websocket server started on port %d", port)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
