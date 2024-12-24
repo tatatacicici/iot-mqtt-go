@@ -5,7 +5,7 @@ import random
 from datetime import datetime
 
 class MQTTTester:
-    def __init__(self, broker="192.168.1.24", port=1883, topic="polines/data/sensor1"):
+    def __init__(self, broker="192.168.0.104", port=1883, topic="polines/data/sensor1"):
         self.broker = broker
         self.port = port
         self.topic = topic
